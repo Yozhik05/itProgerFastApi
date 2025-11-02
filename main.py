@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI ,HTTPException
+
 
 app = FastAPI()
 
@@ -25,3 +26,5 @@ async def items(id :int) ->dict:
 	for post in posts:
 		if post["id"] == id:
 			return post
+		
+	raise HTTPException(status_code=404,detail="Post not found")
