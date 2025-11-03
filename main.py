@@ -1,6 +1,6 @@
-from fastapi import FastAPI ,HTTPException,Path
+from fastapi import FastAPI ,HTTPException,Path,Query
 from typing import Optional, List, Dict,Annotated
-from pydantic import BaseModel
+from pydantic import BaseModel,Field
 
 app = FastAPI()
 
@@ -19,6 +19,12 @@ class PostCreate(BaseModel):
 	title:str
 	body:str
 	author_id:int
+
+class UserCreate(BaseModel):
+	name:Annotated[
+		str,Field(...,title="Имя пользователя",min_length=2,max_length=20)
+	]
+	age:Annotated[int,Field(...,title="Возраст пользователя",ge=1,le=120)]
 
 users = [
 	{"id":1,"name":"John","age":34},
