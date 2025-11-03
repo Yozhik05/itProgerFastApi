@@ -54,7 +54,7 @@ async def add_item(post:PostCreate) ->Post:
 
 
 @app.get("/items/{id}")
-async def items(id :int) ->Post:
+async def items(id :Annotated[int,Path(..., title="Здесь указывается id поста",ge=1,lt=100)]) ->Post:
 	for post in posts:
 		if post["id"] == id:
 			return Post(**post)
