@@ -1,19 +1,30 @@
 from pydantic import BaseModel
 
-class User(BaseModel):
-	id:int
+class UserBase(BaseModel):
 	name:str
 	age:int
+	
+class UserCreate(BaseModel):
+	pass
 
-class Post(BaseModel):
+class User(UserBase):
 	id:int
-	title:str
-	body:str
-	author:User
+	
+    class Config:
+        orm_mode = True
 
-class PostCreate(BaseModel):
-	title:str
+class PostBase(BaseModel):
+	id:int
 	body:str
 	author_id:int
+
+class PostCreate(PostBase):
+	pass
+
+class Past(PostBase):
+	id:int
+	
+    class Config:
+        orm_mode=True
 
     
