@@ -1,4 +1,4 @@
-from fastapi import FastAPI ,HTTPException,Path,Query
+from fastapi import FastAPI ,HTTPException,Path,Query, Body
 from typing import Optional, List, Dict,Annotated
 from pydantic import BaseModel,Field
 
@@ -44,6 +44,7 @@ posts = [{"id":1,"title":"news 1","body":"Text 1","author" :users[1]},
 async def items() ->list[Post]:
 	return [Post(**post) for post in posts]
 
+
 @app.post("/items/add")
 async def add_item(post:PostCreate) ->Post:
 	author = next((user for user in users if user["id"] == post.author_id),None)
@@ -56,6 +57,18 @@ async def add_item(post:PostCreate) ->Post:
 	posts.append(new_post)
 
 	return Post(**new_post)
+
+
+
+@app.post("user/add")
+async def user_add(user:UserCreate)->User:
+	new_user_id = len(users) + 1
+
+	new_user = {"id":new_user_id,"name":user.name,"age":user.age}
+	users.append(new_user)
+
+	return User(**new_user)
+
 
 
 
